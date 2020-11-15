@@ -40,8 +40,9 @@ jobs:
         shell: bash
       - name: Publish release
         uses: ncipollo/release-action@v1
+        if: ${{ github.event_name == 'schedule' }}
         with:
           artifacts: "CaskaydiaCove.zip"
           tag: "${{env.version}}"
           token: ${{ secrets.GITHUB_TOKEN }}
-#          commit: master
+          commit: master
