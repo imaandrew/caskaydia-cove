@@ -16,7 +16,7 @@ jobs:
     steps:
       - id: early
         name: Early exit
-        run: if [[ $(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') != $(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') ]]; then return 0; fi
+        run: if [[ $(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') != $(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') ]]; then exit 0; fi
 
   build:
     runs-on: ubuntu-latest
