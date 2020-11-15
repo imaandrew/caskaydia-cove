@@ -12,21 +12,23 @@ jobs:
   check:
     outputs:
       status: ${{ steps.early.conclusion }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - id: early
         name: Early exit
         run: if [[ $(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') != $(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') ]]; then exit 0; fi
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: check
     if: needs.check.outputs.status == 'success'
     steps:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: sudo apt-get -y install unzip curl git fontforge python-fontforge fonttools
+        run: |
+          sudo apt-get -y install unzip curl git fontforge python3-fontforge fonttools python-is-python3 python3-pip
+          pip3 install configparser
 
       - name: Patch fonts
         run: |
