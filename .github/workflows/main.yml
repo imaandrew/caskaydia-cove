@@ -39,7 +39,6 @@ jobs:
         run: echo "::set-env name=version::$(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
         shell: bash
       - name: Publish release
-        #if: ${{ github.event_name == 'schedule' }}
         uses: ncipollo/release-action@v1
         with:
           artifacts: "CaskaydiaCove.zip"
