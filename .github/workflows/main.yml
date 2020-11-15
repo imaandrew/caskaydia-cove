@@ -1,0 +1,46 @@
+name: Patch Fonts
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: 0 0 * * 0
+
+jobs:
+  check:
+    outputs:
+      status: ${{ steps.early.conclusion }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: early
+        name: Early exit
+        run: if [[ $(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') != $(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') ]]; then return 0; fi
+
+  build:
+    runs-on: ubuntu-latest
+    needs: check
+    if: needs.check.outputs.status == 'success'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: apt-get -y install unzip curl git fontforge python3-fontforge
+
+      - name: Patch fonts
+        run: |
+          chmod +x patch.sh
+          ./patch.sh
+          zip CaskaydiaCove.zip patched-fonts/*
+      - name: Set variable
+        run: echo "::set-env name=version::$(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
+        shell: bash
+      - name: Publish release
+        #if: ${{ github.event_name == 'schedule' }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "CaskaydiaCove.zip"
+          tag: "${{env.version}}"
+          token: ${{ secrets.TOKEN }}
+          commit: master
