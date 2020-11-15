@@ -31,7 +31,7 @@ jobs:
         shell: bash
       - name: Publish release
         uses: ncipollo/release-action@v1
-        if: ${{ github.event_name == 'schedule' }} && ${{ env.version }} == ${{env.otherversion}}
+        if: ${{ github.event_name == 'schedule' }} && ${{ env.version }} != ${{env.otherversion}}
         with:
           artifacts: "CaskaydiaCove.zip"
           tag: "${{env.version}}"
