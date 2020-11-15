@@ -44,4 +44,4 @@ jobs:
           artifacts: "CaskaydiaCove.zip"
           tag: "${{env.version}}"
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit: master
+#          commit: master
