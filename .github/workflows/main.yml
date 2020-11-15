@@ -9,8 +9,18 @@ on:
     - cron: 0 0 * * 0
 
 jobs:
+  check:
+    outputs:
+      status: ${{ steps.early.conclusion }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: early
+        name: Early exit
+        run: if [[ $(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') == $(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') ]]; then exit 1; fi
+
   build:
     runs-on: ubuntu-20.04
+    needs: check
     steps:
       - uses: actions/checkout@v2
 
@@ -31,7 +41,7 @@ jobs:
         shell: bash
       - name: Publish release
         uses: ncipollo/release-action@v1
-        if: ${{ github.event_name == 'schedule' }} && ${{ env.version }} != ${{env.otherversion}}
+        if: needs.check.outputs.status == 'success'
         with:
           artifacts: "CaskaydiaCove.zip"
           tag: "${{env.version}}"
