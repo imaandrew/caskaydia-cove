@@ -38,11 +38,13 @@ jobs:
           ./patch.sh
           zip CaskaydiaCove.zip patched-fonts/*
       - name: Set variable
-        run: echo "::set-env name=version::$(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
+        run: |
+          echo "::set-env name=version::$(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
+          echo "::set-env name=otherversion::$(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
         shell: bash
       - name: Publish release
         uses: ncipollo/release-action@v1
-        if: ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' }} && ${{ env.version }} == ${{env.otherversion}}
         with:
           artifacts: "CaskaydiaCove.zip"
           tag: "${{env.version}}"
