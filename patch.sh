@@ -32,11 +32,11 @@ for f in fonts/*.ttf;
 do
   echo "Patching ${f}"
   if [[ "$f" == *"CascadiaCode"* ]]; then
-      nerd-fonts/font-patcher -wcq -out patched-fonts "$f"
-	  nerd-fonts/font-patcher -cq -out patched-fonts "$f"
+      nerd-fonts/font-patcher -wcq -out patched-fonts "$f" &>/dev/null
+	  nerd-fonts/font-patcher -cq -out patched-fonts "$f" &>/dev/null
   else
-      nerd-fonts/font-patcher -wscq -out patched-fonts "$f"
-      nerd-fonts/font-patcher -scq -out patched-fonts "$f"
+      nerd-fonts/font-patcher -wscq -out patched-fonts "$f" &>/dev/null
+      nerd-fonts/font-patcher -scq -out patched-fonts "$f" &>/dev/null
   fi
 done
 rm -rf fonts 
