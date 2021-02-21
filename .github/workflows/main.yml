@@ -29,6 +29,7 @@ jobs:
         run: |
           echo "version=$(curl -s https://api.github.com/repos/microsoft/cascadia-code/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
           echo "otherversion=$(curl -s https://api.github.com/repos/thatweirdandrew/caskaydia-cove/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+          echo "${{ env.version }}"
         shell: bash
         
       - name: Publish release
