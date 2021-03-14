@@ -16,6 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-get update
           sudo apt-get -y install unzip curl git fontforge python3-fontforge fonttools python-is-python3 python3-pip
           pip3 install configparser
 
