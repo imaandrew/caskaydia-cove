@@ -8,6 +8,7 @@ The fonts are patched automatically with a GitHub Action but you can do it manua
 - curl
 - unzip
 - fonttools
+- fontforge
 
 ### The script will clone the nerd-fonts repository which is over 6.5GB
 
