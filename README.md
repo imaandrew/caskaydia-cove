@@ -1,5 +1,5 @@
 # caskaydia-cove
-Automatic Nerd Fonts patching of the Cascadia Code font
+Automatic Nerd Fonts patching of the [Cascadia Code](https://github.com/microsoft/cascadia-code) font
 
 The fonts are patched automatically with a GitHub Action but you can do it manually by running `patch.sh`
 
