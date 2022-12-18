@@ -1,3 +1,6 @@
+# This repository is no longer maintained
+For an up-to-date version of Cascadia Code patched with Nerd Fonts, check out [Delugia Code](https://github.com/adam7/delugia-code)
+
 # caskaydia-cove
 Automatic Nerd Fonts patching of the [Cascadia Code](https://github.com/microsoft/cascadia-code) font
 
